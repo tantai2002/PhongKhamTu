@@ -1,0 +1,54 @@
+{% extends 'admin/base.html' %}
+{% block body %}
+
+
+<div class="row">
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>Ngày</th>
+                <th>Số bệnh nhân</th>
+                <th>Doanh thu</th>
+            </tr>
+            {% for s in stats %}
+            <tr>
+                <td>{{ s[0] }}</td>
+                <td>{{ s[2] }}</td>
+                {% for count in s %}
+                <td>{{ count }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-5 col-xs-12">
+        <canvas id="productChartId"></canvas>
+    </div>
+</div>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    
+    let label2=[]
+    let data2=[]
+    let color2=[]
+    let borderColor2=[]
+    let r,g,b
+
+    // {% for s in month_stats %}
+    label2.push("name")
+    data2.push(1000)
+    r=parseInt(Math.random()*255)
+    g=parseInt(Math.random()*255)
+    b=parseInt(Math.random()*255)
+    color2.push(`rgba(${r}, ${g}, ${b}, 0.2)`)
+    borderColor2.push(`rgba(${r}, ${g}, ${b}, 1)`)
+    // {% endfor %}
+
+    window.onload = function() {
+        const ctx = document.getElementById('productChartId').getContext('2d')
+        loadChart(ctx, label2,data2, 'bar', color2, borderColor2)
+    }
+
+</script> -->
+{% endblock %}

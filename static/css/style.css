@@ -1,0 +1,37 @@
+.conm{
+    margin: 0;
+    padding: 0;
+}
+.indexbacgroud{
+    width: 100%;
+    position: relative;
+}
+
+.indexbacgroud img{
+    width: 100%;
+}
+
+.dangKyKham{
+    position: absolute;
+    top: 42%;
+    left: 42%;
+    /* border: 1px solid black; */
+    padding: 1.5rem;
+    background-color: greenyellow;
+    border-radius: 5px;
+}
+
+.login_contentNB{
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.form_NB{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.title_contentNB{
+    text-align: center;
+    margin: 1rem 0;
+}

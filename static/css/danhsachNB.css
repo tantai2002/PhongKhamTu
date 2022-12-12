@@ -1,0 +1,42 @@
+.setCenter{
+    text-align: center;
+}
+
+.lapPhieuKham{
+    width: 85%;
+    margin: 1rem auto;
+}
+
+.setPhieuKham input{
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+
+
+.addPhieuKham{
+    text-align: right;
+}
+
+
+
+.addPhieuKham{
+    margin-right: 7rem ;
+}
+
+.addRow{
+    text-align: right;
+    margin: 1rem 2rem 1rem 0;
+}
+
+.title_Yta{
+    text-align: center;
+    /* margin: 1rem auto; */
+}
+
+.dsDK{
+    width: 90%;
+    margin: 0 auto;
+}
+

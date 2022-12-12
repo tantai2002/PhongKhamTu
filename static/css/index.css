@@ -1,7 +1,12 @@
 * {
-    font-family: Tahoma;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
     background-color: lightblue;
 }
+
+.formDKKham{
+    margin-bottom: 1rem;
+}
+

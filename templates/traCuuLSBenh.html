@@ -1,0 +1,43 @@
+{% extends 'layoutNV/contentNV.html' %}
+{% block css %}<link href="{{ url_for('static', filename='css/danhsachNB.css') }}" rel="stylesheet"/>{% endblock %}
+{% block menuBacSi %}<a class="nav-link" href="/backLapPK">Trở về</a>{% endblock %}
+
+
+{% block content %}
+<h1 class="title_Yta">Tra cứu lịch sử bệnh</h1>
+<form action="{{ url_for('searchLSNB') }}" class="dsDK" method="post">
+    <label for="name">Tìm:</label>
+    <input type="text" name="searchLSNB" id="searchLSNB"/>
+    <input type="submit" value="Tìm" class="btn btn-success" />
+</form>
+
+<table class="table table-bordered dsDK">
+    <thead>
+      <tr>
+        <th colspan="5" class="setCenter">Danh sách khám bệnh</th>
+      </tr>
+    </thead>
+    <tbody>
+        
+        <!-- <tr>
+            <td colspan="5" class="setCenter">Ngày khám: </td>
+        </tr> -->
+
+        <tr>
+            <td class="setCenter">Tên người bệnh</td>
+            <td class="setCenter">Ngày khám</td>
+            <td class="setCenter">Triệu chứng</td>
+            <td class="setCenter">Dự đoán</td>
+        </tr>
+        {% for nb in dsLSNB %}
+        <tr>
+            <td class="setCenter">{{nb.name}}</td>
+            <td class="setCenter">{{nb.ngayKham}}</td>
+            <td class="setCenter">{{nb.trieuChung}}</td>
+            <td class="setCenter">{{nb.duDoan}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

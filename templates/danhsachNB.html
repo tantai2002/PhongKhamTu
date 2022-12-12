@@ -1,0 +1,58 @@
+{% extends 'layoutNV/contentNV.html' %}
+{% block css %}<link href="{{ url_for('static', filename='css/danhsachNB.css') }}" rel="stylesheet"/>{% endblock %}
+
+{% block menuYTa %}
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/backListDK">Trở về</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/logoutNV">Đăng xuất</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<pre></pre>
+<form action="{{ url_for('searchDSNB') }}" method="post">
+    <label for="searchDate">Chọn ngày xem:</label>
+    <input type="text" name="searchDate" id="searchDate" placeholder="yyyy/mm/dd..."/>
+    <input type="submit" value="Tìm" class="btn btn-success" />
+</form>
+
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th colspan="5" class="setCenter">Danh sách khám bệnh</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% if filterDK %}
+        <tr>
+            <td colspan="5" class="setCenter">Ngày khám: {{filterDK.ngayDKKham}}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="setCenter">Ngày khám: </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td class="setCenter">STT</td>
+            <td class="setCenter">Họ tên</td>
+            <td class="setCenter">Giới tính</td>
+            <td class="setCenter">Năm sinh</td>
+            <td class="setCenter">Địa chỉ</td>
+        </tr>
+        {% for ds in dsNB %}
+        <tr>
+            <td class="setCenter tdSTT"></td>
+            <td class="setCenter">{{ds.name}}</td>
+            <td class="setCenter">{{ds.gioiTinh}}</td>
+            <td class="setCenter">{{ds.namSinh}}</td>
+            <td class="setCenter">{{ds.address}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block script %}<script src="{{ url_for('static', filename='js/dsdk.js') }}"></script>{% endblock %}

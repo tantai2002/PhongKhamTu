@@ -1,0 +1,159 @@
+{% extends 'layoutNV/contentNV.html' %}
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block css %}<link href="{{ url_for('static', filename='css/danhsachNB.css') }}" rel="stylesheet"/>{% endblock %}
+{% block menuYTa %}
+<!-- <a class="nav-link" href="/dsNB">Danh sách đã lập</a> -->
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/dsNB">Danh sách đã lập</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/logoutNV">Đăng xuất</a>
+    </li>
+{% endblock %}
+{% block contentYTa %}
+
+    <h1 class="title_Yta">Danh Sách Đăng Ký</h1>
+    
+        <table class="table table-hover dsDK" id="myTable">
+            <thead>
+            <tr>
+                <th>Tên người bệnh</th>
+                <th>Giới tính</th>
+                <th>Năm sinh</th>
+                <th>Ngày đăng ký</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for nb in nguoibenh %}
+            <tr class="duyet{{nb.id}}">
+                <td name="name">{{nb.name}}</td>
+                <td name="gioiTinh">{{nb.gioiTinh}}</td>
+                <td name="namSinh">{{nb.namSinh}}</td>
+                <td name="ngayDKKham">{{nb.ngayDKKham}}</td>
+                <td>{{nb.phone}}</td>
+                <td name="address">{{nb.address}}</td>
+                <td><a href="#" onclick="lapDSKham({{nb.id}}, '{{nb.name}}', '{{nb.gioiTinh}}', '{{nb.namSinh}}',
+                '{{nb.ngayDKKham}}', '{{nb.address}}')" class="btn btn-danger duyet ">Duyệt</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
+
+{% block menuBacSi %}
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/traCuuThuoc">Tra cứu thuốc</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/traCuuLSBenh">Tra lịch sử bệnh</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/logoutNV">Đăng xuất</a>
+    </li>
+{% endblock %}
+{% block contentBacSi %}
+<div class="addRow">
+    <button class="btn btn-primary addRow " onclick="addRow()">Thêm dòng</button>
+</div>
+<form action="{{ url_for('addPhieuKham') }}" class="dsDK" enctype="multipart/form-data" method="post">
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="5" class="setCenter">Phiếu khám bệnh</th>
+          </tr>
+        </thead>
+        <tbody class="tbody">
+            <tr>
+                <td colspan="2" class="setPhieuKham">Họ tên: <input type="text" placeholder="............" name="name"/></td>
+                <td colspan="3" class="setPhieuKham">Triệu chứng: <input type="text" placeholder="............" name="trieuChung"></td>
+            </tr>
+            <tr>
+                <td colspan="2  " class="setPhieuKham setDate">Ngày khám: <input type="text" placeholder="dd/mm/yyyy" name="ngayKham"></td>
+                <td colspan="3" class="setPhieuKham">Dự đoán: <input type="text" placeholder="............" name="duDoan"></td>
+            </tr>
+            <tr>
+                <td class="setCenter">Thuốc</td>
+                <td class="setCenter">Đơn vị</td>
+                <td class="setCenter">Số lượng</td>
+                <td class="setCenter">Cách dùng</td>
+            </tr>
+    </table>
+    <div class="addPhieuKham">
+        <input type="submit" value="In phiếu khám" class="btn btn-success" />
+    </div>
+</form>
+{% endblock %}
+
+{% block menuThuNgan %}
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/logoutNV">Đăng xuất</a>
+    </li>
+{% endblock %}
+{% block contentThuNgan %}
+<h1 class="title_Yta">Thanh toán hóa đơn</h1>
+<form action="{{ url_for('searchPK') }}" class="dsDK" method="post">
+    <label for="searchPK">Tìm phiếu khám:</label>
+    <input type="text" name="searchPK" id="searchPK"/>
+    <input type="submit" value="Tìm" class="btn btn-success" />
+</form>
+
+<form action="{{ url_for('addHoaDon') }}" class="dsDK" enctype="multipart/form-data" method="post">
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="4" class="setCenter">Hóa đơn</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if dshdPK %}
+            <tr>
+                <td colspan="2" class="setPhieuKham">Họ tên: <input type="text" placeholder="{{dshdPK.name}}" value="{{dshdPK.name}}" name="name"></td>
+                <td colspan="2" class="setPhieuKham">Tiền khám: <input type="text" placeholder="100.000đ" id="tienKham" value="100.000" name="tienKham"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="setPhieuKham">Ngày khám: <input type="text" placeholder="{{dshdPK.ngayKham}}" value="{{dshdPK.ngayKham}}" name="ngayKham"></td>
+                <td colspan="3" class="setPhieuKham">Tiền thuốc: <input type="text" placeholder="............" id ="tienThuoc" onblur="total()" name="tienThuoc"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="setCenter">Tổng tiền: <input type="text" placeholder="........." id="tongTien" name="tongTien"></td>
+            </tr>
+            {% else %}
+            
+            <tr>
+                <td colspan="2" class="setPhieuKham">Họ tên: <input type="text" placeholder="............" name="name"></td>
+                <td colspan="2" class="setPhieuKham">Tiền khám: <input type="text" placeholder="............" name="tienKham"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="setPhieuKham">Ngày khám: <input type="text" placeholder="............" name="ngayKham"></td>
+                <td colspan="3" class="setPhieuKham">Tiền thuốc: <input type="text" placeholder="............" name="tienThuoc"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="setCenter">Tổng tiền: </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <div class="addPhieuKham">
+        <input type="submit" value="In hóa đơn" class="btn btn-success" />
+    </div>
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

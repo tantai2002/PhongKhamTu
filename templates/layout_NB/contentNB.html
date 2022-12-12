@@ -23,16 +23,22 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                       {% block login %}{% endblock %}
+                        <a class="nav-link" href="/">Trang chủ</a>
                     </li>
+                    {% if current_user %}
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="/register">Đăng ký</a>
+                        <a class="nav-link text-danger" href="/logout">Đăng xuất</a>
                     </li>
-                    <li>
-                        {% block backHome %}{% endblock %}
-                    </li>
+                    {% endif %}
+                    
                 </ul>
-                
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="/">
+                        Chào <span class="text-info">{{ current_user.name }}</span>
+                    </a>
+                </li>
+                {% endif %}
             </div>
         </div>
     </nav>
