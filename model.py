@@ -110,8 +110,6 @@ class PhieuKham(BaseModel):
     __tablename__ = 'phieukham'
     name = Column(String(70), nullable = False)
     ngayKham = Column(String(10), nullable = False)
-    ngay = Column(String(5), nullable = False)
-    thang = Column(String(5), nullable = False)
     trieuChung = Column(String(200), nullable = False)
     duDoan = Column(String(200), nullable = False)
     id_User = Column(Integer, ForeignKey(User.id), nullable=False)
@@ -123,6 +121,8 @@ class HoaDon(BaseModel):
     __tablename__ = 'hoadon'
     name = Column(String(70), nullable = False)
     ngayThanhToan = Column(String(10), nullable = False)
+    ngay = Column(String(5), nullable = False)
+    thang = Column(String(5), nullable = False)
     tienKham = Column(Float, nullable = True)
     tienThuoc = Column(Float, nullable = True)
     tongTien = Column(Float, nullable = True)

@@ -1,4 +1,4 @@
-from model import User, BacSi, NguoiBenh, DSKham, PhieuKham, Thuoc, HoaDon
+from model import User, NguoiBenh, DSKham, PhieuKham, Thuoc, HoaDon
 from flask_login import current_user
 import hashlib
 from __init__ import db 
@@ -80,22 +80,27 @@ def upDSKham(name, gioitinh, namsinh, ngayDKKham, address):
     db.session.commit()
 
 
-def updatePK(name, trieuChung, duDoan, ngayKham, ngay, thang):
-    u = PhieuKham(name=name, trieuChung=trieuChung, duDoan=duDoan, ngayKham=ngayKham, ngay=ngay, thang=thang, user=current_user)
+def updatePK(name, trieuChung, duDoan, ngayKham):
+    u = PhieuKham(name=name, trieuChung=trieuChung, duDoan=duDoan, ngayKham=ngayKham, user=current_user)
     db.session.add(u)
     db.session.commit()
 
-def uppdateHD(name, ngayKham, tienKham, tienThuoc, ngayThanhToan, tongTien, id_phieukham):
-    u = HoaDon(name=name, tienKham=tienKham, tienThuoc=tienThuoc, ngayKham=ngayKham, user=current_user, ngayThanhToan=ngayThanhToan, tongTien = tongTien, id_PhieuKham=id_phieukham)
+def uppdateHD(name, ngayKham, tienKham, tienThuoc, ngayThanhToan, tongTien, id_phieukham, ngay, thang):
+    u = HoaDon(name=name, tienKham=tienKham, tienThuoc=tienThuoc, ngayKham=ngayKham, user=current_user, ngayThanhToan=ngayThanhToan, ngay=ngay, thang=thang, tongTien = tongTien, id_PhieuKham=id_phieukham)
     db.session.add(u)
     db.session.commit()
 
 
 def doanhthu_stats(month):
-    p = db.session.query(PhieuKham.ngay, PhieuKham.id, func.sum(HoaDon.tongTien))\
-        .join(HoaDon, HoaDon.id_PhieuKham.__eq__(PhieuKham.id))\
-        .filter(PhieuKham.thang.contains(month))\
-        .group_by(PhieuKham.ngay, PhieuKham.id)
+    p = db.session.query(HoaDon.ngayThanhToan,HoaDon.thang, func.sum(HoaDon.tongTien))\
+        .filter(HoaDon.thang.contains(month))\
+        .group_by(HoaDon.ngayThanhToan, HoaDon.thang)
     return p.all()
+
+def slBenhNhan_stats(month):
+    p = db.session.query(HoaDon.id).filter(HoaDon.thang.contains(month))\
+        .group_by(HoaDon.id)
+    return p.all()
+    # .join(HoaDon, HoaDon.id_PhieuKham.__eq__(HoaDon.id))\
     
 

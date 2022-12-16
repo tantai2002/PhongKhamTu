@@ -1,4 +1,4 @@
-from model import ThuNgan, BacSi, YTa, NguoiBenh, UserRole, Thuoc
+from model import NguoiBenh, UserRole, Thuoc
 from __init__ import app, db, admin
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_login import logout_user, current_user
@@ -25,18 +25,19 @@ class logoutView(AuthenticatedView):
     
 class statsView(AuthenticatedView):
     @expose('/')
-    def index(seft):
-        a = datetime.datetime.now()
-        b = a.strftime("$m")
-        stats = utils.doanhthu_stats(month=b)
-        return render_template('admin/stats.html')
+    def index_thang(self):
+        a = str(request.args.get('searchThang'))
+        stats = utils.doanhthu_stats(a)
+        sl_stats = utils.slBenhNhan_stats(a)
+        dem = 0
+        tile = 0
+        p = 0
+        for p  in sl_stats:
+            dem+=1
+        tile = dem / 40
+        return self.render('admin/stats.html', stats=stats, sl=dem, thang = a, tile=tile)
     
 
-
-
-admin.add_view(AuthenticatedModelView(BacSi, db.session, 'Bác Sĩ'))
-admin.add_view(AuthenticatedModelView(YTa, db.session, 'Y Tá'))
-admin.add_view(AuthenticatedModelView(ThuNgan, db.session, 'Thu Ngân'))
 admin.add_view(AuthenticatedModelView(NguoiBenh, db.session, 'Người Bệnh'))
 admin.add_view(AuthenticatedModelView(Thuoc, db.session, 'Thuốc'))
 admin.add_view(logoutView('Đăng xuất'))

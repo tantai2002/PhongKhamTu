@@ -193,9 +193,9 @@ def addPhieuKham():
             name=name,
             trieuChung=request.form['trieuChung'],
             duDoan=request.form['duDoan'],
-            ngayKham=b,
-            ngay=a.strftime("%d"),
-            thang=a.strftime("%m"),
+            ngayKham=b
+            # ngay=a.strftime("%d"),
+            # thang=a.strftime("%m"),
         )
         return render_template('indexNV.html')
     return render_template('indexNV.html')
@@ -214,8 +214,8 @@ def addHoaDon():
             tienKham=request.form['tienKham'],
             tienThuoc=request.form['tienThuoc'],
             ngayThanhToan = b,
-            # ngay=a.strftime("%d"),
-            # thang=a.strftime("%m"),
+            ngay=a.strftime("%d"),
+            thang=a.strftime("%m"),
             tongTien = request.form['tongTien'],
             id_phieukham = get_idPK.id
         )

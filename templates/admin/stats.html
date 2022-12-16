@@ -1,54 +1,137 @@
-{% extends 'admin/base.html' %}
+{% extends 'admin/master.html' %}
 {% block body %}
-
+<h1 style="text-align: center;">Thống kê doanh thu</h1>
+<form>
+    <label for="searchThang">Tìm tháng:</label>
+    <input type="text" name="searchThang" id="searchThang"/>
+    <input type="submit" value="Tìm" class="btn btn-success" />
+</form>
 
 <div class="row">
     <div class="col-md-5 col-sm-12">
         <table class="table">
             <tr>
-                <th>Ngày</th>
-                <th>Số bệnh nhân</th>
-                <th>Doanh thu</th>
+                <th colspan="4" style="text-align: center;">Tháng: {{ thang }}
+            </tr>
+            <tr>
+                <td>STT</td>
+                <td>Ngày</td>
+                <!-- <td>Số bệnh nhân</td> -->
+                <td>Doanh thu</td>
             </tr>
             {% for s in stats %}
             <tr>
+                <td class="tdSTT"></td>
                 <td>{{ s[0] }}</td>
-                <td>{{ s[2] }}</td>
-                {% for count in s %}
-                <td>{{ count }}</td>
-                {% endfor %}
+                <!-- <td>{{ sl }}</td> -->
+                <td class="doanhthu">{{ "{:,.1f}".format(s[2]) }}</td>
+                <!-- <td>{{ tile }}</td> -->
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="3" style="text-align: center;">Tổng doanh thu: <span class="totalDoanhThu"></span></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center;">Tổng số bệnh nhân: <span class="tongBenhNhan">{{ sl }}</span></td>
+            </tr>
         </table>
     </div>
     <div class="col-md-5 col-xs-12">
-        <canvas id="productChartId"></canvas>
+        <canvas id="doanhThu"></canvas>
+        <canvas id="soBenhNhan"></canvas>
     </div>
 </div>
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    
-    let label2=[]
-    let data2=[]
-    let color2=[]
-    let borderColor2=[]
-    let r,g,b
+    function tdStt(){
+    let a = document.querySelectorAll('.tdSTT')
+    let b = 0
+    for(i = 1; i<=a.length;i++){
+        a[b].textContent = i
+        b++
+    }   
+}
+tdStt()
+    function totalDoanhThu(){
+        let a = document.querySelectorAll('.doanhthu')
+        let totalDoanhThu = document.querySelector('.totalDoanhThu')
+        let sum = 0
+        // for(i = 0; i<=a.length;i++){
+        // // a[i].textContent = i
+        // // b++
+        // sum += parseFloat(a[i].textContent)
+        // } 
+        {% for s in stats %}
+        sum += parseFloat({{ s[2] }})
+        {% endfor %}
+        totalDoanhThu.textContent = sum
+     }
 
-    // {% for s in month_stats %}
-    label2.push("name")
-    data2.push(1000)
-    r=parseInt(Math.random()*255)
-    g=parseInt(Math.random()*255)
-    b=parseInt(Math.random()*255)
-    color2.push(`rgba(${r}, ${g}, ${b}, 0.2)`)
-    borderColor2.push(`rgba(${r}, ${g}, ${b}, 1)`)
-    // {% endfor %}
+    totalDoanhThu()
 
-    window.onload = function() {
-        const ctx = document.getElementById('productChartId').getContext('2d')
-        loadChart(ctx, label2,data2, 'bar', color2, borderColor2)
+
+    let lables = [], info = []
+    {% for s in stats %}
+        info.push({{ s[2] }})
+        
+    {% endfor %}
+    window.onload = function(){
+        const ctx = document.getElementById('doanhThu').getContext('2d')
+        const ctx2 = document.getElementById('soBenhNhan').getContext('2d')
+        let total = parseInt(document.querySelector('.totalDoanhThu').textContent)
+        let soBenhNhan = (document.querySelector('.tongBenhNhan').textContent)
+        // console.log(soBenhNhan)
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data:{
+                labels: ['Thống kê doanh thu = ' + total.toFixed(3) + " VND"],
+                datasets: [{
+                    label: 'Thống kê doanh thu',
+                    data: [total],
+                    backgroundColor: [
+                    '#C07CC3', '#9C3848'
+                    ],
+                    borderColor: [
+                    '#C07CC3', '#9C3848'
+                    ],
+                    borderWith: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
+
+        const myChart2 = new Chart(ctx2, {
+            type: 'doughnut',
+            data:{
+                labels: ['Thống kê bệnh nhân = ' + soBenhNhan + ' người'],
+                datasets: [{
+                    label: 'Thống kê bệnh nhân',
+                    data: [soBenhNhan],
+                    backgroundColor: [
+                    '#9C3848'
+                    ],
+                    borderColor: [
+                    '#9C3848'
+                    ],
+                    borderWith: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
     }
+</script>
 
-</script> -->
+
 {% endblock %}

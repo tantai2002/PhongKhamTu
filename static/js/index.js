@@ -43,8 +43,6 @@ function addRow(){
 function total(){
     let tienKham = parseFloat(document.getElementById('tienKham').value)
     let tienThuoc = parseFloat(document.getElementById('tienThuoc').value)
-    // console.log(Number(tienKham))
-    // console.log(parseFloat(tienKham))
     let tongTien = document.getElementById('tongTien')
     let sum =0
     sum = tienKham + tienThuoc
